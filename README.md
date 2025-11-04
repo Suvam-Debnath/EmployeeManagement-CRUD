@@ -1,8 +1,9 @@
 <h1 align="center">🚀 Spring Boot CRUD Application (H2 Database)</h1>
 
 <p align="center">
-  A simple <b>Spring Boot CRUD Application</b> built using <b>H2 in-memory database</b>.  
-  This project demonstrates basic CRUD operations using RESTful APIs, service layers, and exception handling.
+  A simple <b>Spring Boot CRUD Application</b> built using an <b>H2 in-memory database</b>.  
+  Demonstrates full <b>CRUD (Create, Read, Update, Delete)</b> operations via RESTful APIs with  
+  Service Layer, Repository Layer, and Global Exception Handling.
 </p>
 
 <hr/>
@@ -24,7 +25,11 @@ SpringbootCRUD_h2DB/
 │   │   │           │   └── Employee.java
 │   │   │           │
 │   │   │           ├── service/
-│   │   │           │   └── EmployeeService.java
+│   │   │           │   ├── EmployeeService.java
+│   │   │           │   └── EmployeeServiceImpl.java
+│   │   │           │
+│   │   │           ├── repository/
+│   │   │           │   └── EmployeeRepository.java
 │   │   │           │
 │   │   │           ├── exception/
 │   │   │           │   ├── ResourceNotFoundException.java
@@ -58,10 +63,9 @@ spring.datasource.username=sa
 spring.datasource.password=password
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 
-# Optional Settings
+# Optional
 # spring.jpa.show-sql=true
 # spring.h2.console.enabled=true
-# spring.datasource.url=jdbc:h2:file:./data/demo
 # spring.jpa.hibernate.ddl-auto=update
 </pre>
 
@@ -71,9 +75,9 @@ spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 
 <ul>
   <li>Spring Boot</li>
-  <li>Spring Web</li>
+  <li>Spring Web (REST API)</li>
   <li>Spring Data JPA</li>
-  <li>H2 Database (in-memory)</li>
+  <li>H2 In-Memory Database</li>
   <li>Jakarta Validation API</li>
   <li>Maven</li>
   <li>Java 17+</li>
@@ -81,41 +85,78 @@ spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 
 <hr/>
 
-<h2>📦 API Endpoints</h2>
+<h2>📦 All API Endpoints (with Port Numbers)</h2>
+
+<h3>👨‍💼 Employee Management APIs</h3>
 
 <table border="1" cellpadding="6" cellspacing="0">
   <thead>
     <tr>
       <th>HTTP Method</th>
-      <th>Endpoint</th>
+      <th>Endpoint (Full URL)</th>
+      <th>Description</th>
+      <th>Request Body</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>GET</b></td>
+      <td>http://localhost:8081/demo/employee</td>
+      <td>Retrieve all employees</td>
+      <td>❌ None</td>
+    </tr>
+    <tr>
+      <td><b>GET</b></td>
+      <td>http://localhost:8081/demo/employee/{id}</td>
+      <td>Retrieve a specific employee by ID</td>
+      <td>❌ None</td>
+    </tr>
+    <tr>
+      <td><b>POST</b></td>
+      <td>http://localhost:8081/demo/employee</td>
+      <td>Create a new employee</td>
+      <td>✅ JSON (Employee Object)</td>
+    </tr>
+    <tr>
+      <td><b>PUT</b></td>
+      <td>http://localhost:8081/demo/employee/{id}</td>
+      <td>Update an existing employee</td>
+      <td>✅ JSON (Employee Object)</td>
+    </tr>
+    <tr>
+      <td><b>DELETE</b></td>
+      <td>http://localhost:8081/demo/employee/{id}</td>
+      <td>Delete an employee by ID</td>
+      <td>❌ None</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>⚙️ Utility & System Endpoints</h3>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th>HTTP Method</th>
+      <th>Endpoint (Full URL)</th>
       <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><b>GET</b></td>
-      <td>/demo/employee</td>
-      <td>Retrieve all employees</td>
+      <td>http://localhost:8081/h2-console</td>
+      <td>Access H2 database console (must enable in properties)</td>
     </tr>
     <tr>
       <td><b>GET</b></td>
-      <td>/demo/employee/{id}</td>
-      <td>Retrieve a specific employee by ID</td>
+      <td>http://localhost:8081/actuator/health</td>
+      <td>Check application health (if Spring Boot Actuator is enabled)</td>
     </tr>
     <tr>
-      <td><b>POST</b></td>
-      <td>/demo/employee</td>
-      <td>Create a new employee</td>
-    </tr>
-    <tr>
-      <td><b>PUT</b></td>
-      <td>/demo/employee/{id}</td>
-      <td>Update an existing employee by ID</td>
-    </tr>
-    <tr>
-      <td><b>DELETE</b></td>
-      <td>/demo/employee/{id}</td>
-      <td>Delete an employee by ID</td>
+      <td><b>GET</b></td>
+      <td>http://localhost:8081/error</td>
+      <td>Default Spring Boot error handler endpoint</td>
     </tr>
   </tbody>
 </table>
@@ -125,8 +166,8 @@ spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 <h2>⚠️ Global Exception Handling</h2>
 
 <p>
-The application includes a <b>GlobalExceptionHandler</b> class that handles runtime exceptions globally across all controllers.  
-It ensures meaningful error messages are returned to clients.
+The application includes a <b>GlobalExceptionHandler</b> that handles errors across all controllers  
+and returns meaningful HTTP responses to the client.
 </p>
 
 <pre>
@@ -141,16 +182,123 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity&lt;String&gt; handleResourceNotFound(ResourceNotFoundException ex) {
+        return new ResponseEntity&lt;&gt;(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGenericException(Exception ex) {
-        return new ResponseEntity<>("An unexpected error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity&lt;String&gt; handleGenericException(Exception ex) {
+        return new ResponseEntity&lt;&gt;(
+            "An unexpected error occurred: " + ex.getMessage(),
+            HttpStatus.INTERNAL_SERVER_ERROR
+        );
     }
 }
 </pre>
+
+<hr/>
+
+<h2>📘 Example JSON Requests and Responses</h2>
+
+<h3>✅ POST (Create Employee)</h3>
+<pre>
+POST http://localhost:8081/demo/employee
+Content-Type: application/json
+
+Request Body:
+{
+  "firstName": "Suvam",
+  "lastName": "Debnath",
+  "email": "suvam@example.com",
+  "department": "Engineering"
+}
+
+Response:
+{
+  "id": 1,
+  "firstName": "Suvam",
+  "lastName": "Debnath",
+  "email": "suvam@example.com",
+  "department": "Engineering"
+}
+</pre>
+
+<h3>✅ GET (All Employees)</h3>
+<pre>
+GET http://localhost:8081/demo/employee
+
+Response:
+[
+  {
+    "id": 1,
+    "firstName": "Suvam",
+    "lastName": "Debnath",
+    "email": "suvam@example.com",
+    "department": "Engineering"
+  },
+  {
+    "id": 2,
+    "firstName": "Rahul",
+    "lastName": "Singh",
+    "email": "rahul@example.com",
+    "department": "Finance"
+  }
+]
+</pre>
+
+<h3>✅ PUT (Update Employee)</h3>
+<pre>
+PUT http://localhost:8081/demo/employee/1
+Content-Type: application/json
+
+Request Body:
+{
+  "firstName": "Suvam",
+  "lastName": "Updated",
+  "email": "suvam.updated@example.com",
+  "department": "IT"
+}
+
+Response:
+{
+  "id": 1,
+  "firstName": "Suvam",
+  "lastName": "Updated",
+  "email": "suvam.updated@example.com",
+  "department": "IT"
+}
+</pre>
+
+<h3>✅ DELETE (Remove Employee)</h3>
+<pre>
+DELETE http://localhost:8081/demo/employee/1
+
+Response:
+{
+  "deleted": true
+}
+</pre>
+
+<hr/>
+
+<h2>📊 H2 Database Console</h2>
+
+<p>To enable and use the H2 web console:</p>
+
+<ol>
+  <li>Add the following property in <code>application.properties</code>:</li>
+  <pre>spring.h2.console.enabled=true</pre>
+  
+  <li>Open H2 console in your browser:</li>
+  <pre>http://localhost:8081/h2-console</pre>
+  
+  <li>Enter the following credentials:</li>
+  <pre>
+  JDBC URL: jdbc:h2:mem:testdb
+  Username: sa
+  Password: password
+  </pre>
+</ol>
 
 <hr/>
 
@@ -159,48 +307,54 @@ public class GlobalExceptionHandler {
 <ol>
   <li>Clone the repository:</li>
   <pre>git clone https://github.com/your-username/SpringbootCRUD_h2DB.git</pre>
-  
-  <li>Navigate into the project folder:</li>
+
+  <li>Navigate to the project directory:</li>
   <pre>cd SpringbootCRUD_h2DB</pre>
-  
+
   <li>Build the project using Maven:</li>
   <pre>mvn clean install</pre>
-  
-  <li>Run the Spring Boot application:</li>
+
+  <li>Run the application:</li>
   <pre>mvn spring-boot:run</pre>
-  
-  <li>Access the app at:</li>
+
+  <li>Access API endpoints at:</li>
   <pre>http://localhost:8081/demo/employee</pre>
 </ol>
 
 <hr/>
 
-<h2>📘 Example JSON (POST Request)</h2>
+<h2>📜 pom.xml - Key Dependencies</h2>
 
 <pre>
-{
-  "firstName": "Suvam",
-  "lastName": "Debnath",
-  "email": "suvam@example.com",
-  "department": "Engineering"
-}
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.h2database&lt;/groupId&gt;
+        &lt;artifactId&gt;h2&lt;/artifactId&gt;
+        &lt;scope&gt;runtime&lt;/scope&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;jakarta.validation&lt;/groupId&gt;
+        &lt;artifactId&gt;jakarta.validation-api&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
 </pre>
-
-<hr/>
-
-<h2>📊 H2 Database Console (Optional)</h2>
-
-<ul>
-  <li>Enable console in <code>application.properties</code> by adding:
-    <pre>spring.h2.console.enabled=true</pre>
-  </li>
-  <li>Access console at:
-    <pre>http://localhost:8081/h2-console</pre>
-  </li>
-  <li>Use JDBC URL:
-    <pre>jdbc:h2:mem:testdb</pre>
-  </li>
-</ul>
 
 <hr/>
 
@@ -211,4 +365,5 @@ public class GlobalExceptionHandler {
 
   🔗 <a href="https://github.com/suvamdebnath">GitHub Profile</a>
 </p>
+
 
