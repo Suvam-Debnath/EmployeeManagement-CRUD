@@ -62,11 +62,6 @@ spring.datasource.driverClassName=org.h2.Driver
 spring.datasource.username=sa
 spring.datasource.password=password
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-
-# Optional
-# spring.jpa.show-sql=true
-# spring.h2.console.enabled=true
-# spring.jpa.hibernate.ddl-auto=update
 </pre>
 
 <hr/>
@@ -302,24 +297,6 @@ Response:
 
 <hr/>
 
-<h2>🚀 How to Run the Application</h2>
-
-<ol>
-  <li>Clone the repository:</li>
-  <pre>git clone https://github.com/your-username/SpringbootCRUD_h2DB.git</pre>
-
-  <li>Navigate to the project directory:</li>
-  <pre>cd SpringbootCRUD_h2DB</pre>
-
-  <li>Build the project using Maven:</li>
-  <pre>mvn clean install</pre>
-
-  <li>Run the application:</li>
-  <pre>mvn spring-boot:run</pre>
-
-  <li>Access API endpoints at:</li>
-  <pre>http://localhost:8081/demo/employee</pre>
-</ol>
 
 <hr/>
 
