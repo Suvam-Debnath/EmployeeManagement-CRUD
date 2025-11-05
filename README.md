@@ -80,12 +80,12 @@ spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
   <li>H2 In-Memory Database</li>
   <li>Jakarta Validation API</li>
   <li>Maven</li>
-  <li>Java 17+</li>
+  <li>Java 21+</li>
 </ul>
 
 <hr/>
 
-<h2>📦 All API Endpoints (with Port Numbers)</h2>
+<h2>📦 All API Endpoints</h2>
 
 <h3>👨‍💼 Employee Management APIs</h3>
 
@@ -361,9 +361,6 @@ Response:
 <h2>🧠 Author</h2>
 
 <p><b>Developed by:</b> Suvam Debnath</p>
-<p>
 
-  🔗 <a href="https://github.com/suvamdebnath">GitHub Profile</a>
-</p>
 
 
