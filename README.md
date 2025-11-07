@@ -4,8 +4,7 @@
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" width="60" height="60"/>
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="Spring Boot" width="60" height="60"/>
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" alt="Maven" width="60" height="60"/>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/H2_logo.png" alt="H2 Database" width="80" height="60"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" width="60" height="60"/>
+
 </p>
 
 <p align="center">
@@ -32,7 +31,6 @@ and applies <b>Bean Validation</b> with custom error messages via a <b>Global Ex
   <li>🗃️ <b>H2 Database</b> (in-memory)</li>
   <li>🧾 <b>Jakarta Validation</b></li>
   <li>📦 <b>Maven</b></li>
-  <li>🧰 <b>Git / GitHub</b></li>
 </ul>
 
 <hr>
@@ -174,23 +172,6 @@ public class GlobalExceptionHandeller {
 </pre>
 
 <hr>
-
-<h2>🧠 How to Run the Application</h2>
-
-<ol>
-  <li>Clone the repository:
-    <pre>git clone https://github.com/your-username/EmployeeManagementSystem.git</pre>
-  </li>
-  <li>Navigate into the project directory:
-    <pre>cd EmployeeManagementSystem</pre>
-  </li>
-  <li>Run the application:
-    <pre>mvn spring-boot:run</pre>
-  </li>
-  <li>Access the APIs via browser or Postman:
-    <pre>http://localhost:8081/demo/employee</pre>
-  </li>
-</ol>
 
 <hr>
 
