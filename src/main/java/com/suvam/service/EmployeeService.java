@@ -12,11 +12,14 @@ import com.suvam.repository.EmployeeRepository;
 public class EmployeeService {
 	@Autowired
 	private EmployeeRepository empRepo;
-	
-	public List<Employee> getAllEmployees() {
-		
-		return empRepo.findAll();
-	}
+
+    public List<Employee> getAllEmployees() throws Exception {
+        List<Employee> employees = empRepo.findAll();
+        if (employees.isEmpty()) {
+            throw new Exception("no employees found");
+        }
+        return employees;
+    }
 
 	public Employee getEmployeeById(Long empId) throws Exception {
 		

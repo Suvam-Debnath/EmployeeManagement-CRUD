@@ -27,7 +27,7 @@ public class EmployeeController {
 	private EmployeeService empService;
 	
 	@GetMapping("/employee")
-	public List<Employee> getAllEmployees(){
+	public List<Employee> getAllEmployees() throws Exception {
 		return empService.getAllEmployees();
 	}
 	
