@@ -37,7 +37,7 @@ public class EmployeeService {
 		employee.setfName(empData.getfName());
 		employee.setlName(empData.getlName());
 		employee.setGender(empData.getGender());
-		employee.setId(empData.getId());
+		//employee.setId(empData.getId());
 		return empRepo.save(employee);
 	}
 
