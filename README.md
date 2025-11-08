@@ -173,6 +173,31 @@ public class GlobalExceptionHandeller {
 
 <hr>
 
+<h1>🧩 Field Validations in Spring Boot Model</h1>
+
+<ul>
+  <li><strong>fName</strong> → <code>@NotBlank</code>, <code>@Size(min = 4)</code></li>
+  <li><strong>lName</strong> → <code>@NotBlank</code></li>
+  <li><strong>email</strong> → <code>@NotBlank</code>, <code>@Email</code></li>
+  <li><strong>gender</strong> → <code>@NotBlank</code></li>
+</ul>
+
+<pre><code>@NotBlank(message = "First name is required")
+@Size(min = 4, message = "First name must be at least 4 characters")
+private String fName;
+
+@NotBlank(message = "Last name is required")
+private String lName;
+
+@NotBlank(message = "Email is required")
+@Email(message = "Email should be valid")
+private String email;
+
+@NotBlank(message = "Gender is required")
+private String gender;
+</code></pre>
+
+
 <hr>
 
 <h2>📊 H2 Database Console</h2>
